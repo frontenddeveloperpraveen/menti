@@ -1,6 +1,9 @@
+"use client";
 import React from "react";
+import { useUser } from "@clerk/nextjs";
 
 function Hero() {
+  const user = useUser();
   return (
     <section className="flex h-[90vh] px-10 bg-[#fff5f1]">
       <div className="w-1/2 flex flex-col justify-center">
@@ -14,12 +17,29 @@ function Hero() {
           before
         </p>
         <div className="my-10 flex gap-6 ">
-          <button className="border px-5 py-3 rounded-md bg-blue-600  hover:bg-blue-700 text-white">
-            Get Started
-          </button>
-          <button className="border px-5 py-3 rounded-md bg-white hover:bg-gray-100">
-            Become Mentor
-          </button>
+          {user.isSignedIn === false ? (
+            <>
+              <a href="/login">
+                <button className="border px-5 py-3 rounded-md bg-blue-600  hover:bg-blue-700 text-white">
+                  Get Started
+                </button>
+              </a>
+              <button className="border px-5 py-3 rounded-md bg-white hover:bg-gray-100">
+                Become a Mentor
+              </button>
+            </>
+          ) : (
+            <>
+              <a href="/dashboard">
+                <button className="border px-5 py-3 rounded-md bg-blue-600  hover:bg-blue-700 text-white">
+                  Dashboard
+                </button>
+              </a>
+              <button className="border px-5 py-3 rounded-md bg-white hover:bg-gray-100">
+                Admin Support
+              </button>
+            </>
+          )}
         </div>
         <div className="flex gap-10">
           <div>

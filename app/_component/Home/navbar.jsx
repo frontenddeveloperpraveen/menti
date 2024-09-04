@@ -2,19 +2,32 @@
 import React, { useEffect, useState } from "react";
 import { ChevronDown, Search } from "lucide-react";
 import { UserButton, useUser } from "@clerk/nextjs";
+import { useRouter, usePathname } from "next/navigation";
 
-function Navbar() {
-  const [isdropOpen, setdrop] = useState(false); // Correctly initialize state
+function Navbar({ setSearchQuery }) {
+  const [isdropOpen, setdrop] = useState(false);
+  const user = useUser();
+  const router = useRouter();
+  const pathname = usePathname(); // Get the current route
+
+  useEffect(() => {
+    console.log(user);
+  }, [user]);
 
   const handleDropdown = (value) => {
     setdrop(value);
   };
 
-  const user = useUser();
+  const handleSearchChange = (event) => {
+    setSearchQuery(event.target.value);
+  };
 
-  useEffect(() => {
-    console.log(user);
-  }, [user]);
+  const focushandeler = (event) => {
+    // Check if the current route is not '/explore'
+    if (pathname !== "/explore") {
+      router.push("/explore");
+    }
+  };
 
   return (
     <nav className="flex justify-between items-center px-5 py-2 border z-10 bg-[#f8e4d9]">
@@ -22,14 +35,13 @@ function Navbar() {
       <div>
         <div className="border border-gray-300 rounded-md bg-white px-3 py-2 justify-center items-center flex gap-3">
           <Search />
-          <form action="/search">
-            <input
-              type="search"
-              placeholder="Search mentors..."
-              name="prompt"
-              className="outline-none border-0 w-96 h-9 bg-white"
-            />
-          </form>
+          <input
+            type="search"
+            placeholder="Search mentors..."
+            className="outline-none border-0 w-96 h-9 bg-white"
+            onChange={handleSearchChange}
+            onFocus={focushandeler}
+          />
         </div>
       </div>
       <div>

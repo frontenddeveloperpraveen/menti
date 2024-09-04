@@ -1,9 +1,13 @@
-import { SignIn } from "@clerk/nextjs";
+"use client";
+import { SignIn, SignInButton } from "@clerk/nextjs";
+import React from "react";
 
-export default function Page() {
+function page() {
   return (
-    <div className="flex justify-center items-center h-screen">
+    <div className="w-screen h-screen flex justify-center items-center">
       <SignIn />
     </div>
   );
 }
+
+export default page;
